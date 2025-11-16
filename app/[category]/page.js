@@ -1,21 +1,24 @@
-import React from "react";
-import Link from "next/link";
+import { notFound } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
-export default async function Page() {
-  const posts = [];
+const getCategoryDisplayName = (route) => {
+  const displayNames = {
+    jaipur: "जयपुर",
+    "nagar-dagar": "नगर-डगर",
+    "duniya-jahan": "दुनिया-जहान",
+    "photo-feature": "फोटो फीचर",
+    "khel-sansar": "खेल संसार",
+    english: "Sangopang English",
+  };
+  return displayNames[route] || route;
+};
 
-  if (!posts || posts.length === 0) {
-    return (
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <div className="text-center py-12">
-          <p className="text-lg text-gray-600">कोई पोस्ट उपलब्ध नहीं है।</p>
-        </div>
-      </div>
-    );
-  }
+export default async function CategoryPage({ params }) {
+  const { category } = await params;
+  const posts = await getPostsByCategory(category);
 
   const formatDate = (dateString) => {
     if (!dateString) return "";
@@ -27,8 +30,14 @@ export default async function Page() {
     });
   };
 
+  const categoryDisplayName = getCategoryDisplayName(category);
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-8 text-gray-900">
+        {categoryDisplayName}
+      </h1>
+
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.map((post) => (
           <article
@@ -42,7 +51,6 @@ export default async function Page() {
                   alt={post.mainImageAlt}
                   fill
                   className="object-cover"
-                  priority
                 />
               </div>
             )}
