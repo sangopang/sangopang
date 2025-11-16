@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getPostsByCategory } from "@/lib/sanity";
-
 export const dynamic = "force-dynamic";
 
 const getCategoryDisplayName = (route) => {
