@@ -120,7 +120,11 @@ const portableTextComponents = {
 
 export default async function NewsPage({ params }) {
   const { category, slug } = await params;
-  const post = await getPostBySlugAndCategory(slug, category);
+
+  // ✅ URL decode करो
+  const decodedSlug = decodeURIComponent(slug);
+
+  const post = await getPostBySlugAndCategory(decodedSlug, category);
 
   if (!post) {
     notFound();
