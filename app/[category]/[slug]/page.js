@@ -11,7 +11,7 @@ const getCategoryDisplayName = (route) => {
     jaipur: "जयपुर",
     "nagar-dagar": "नगर-डगर",
     "duniya-jahan": "दुनिया-जहान",
-    "photo-feature": "फोटो फीचर",
+    "jeevan-ke-rang": "जीवन के रंग",
     "khel-sansar": "खेल संसार",
     vividh: "विविध",
   };

@@ -42,7 +42,7 @@ export default async function HomePage() {
   const jaipurPosts = await getCategoryPosts("jaipur", 6);
   const nagarPosts = await getCategoryPosts("nagar-dagar", 6);
   const duniyaPosts = await getCategoryPosts("duniya-jahan", 6);
-  const photoPosts = await getCategoryPosts("photo-feature", 6);
+  const photoPosts = await getCategoryPosts("jeevan-ke-rang", 6);
   const khelPosts = await getCategoryPosts("khel-sansar", 6);
   const vividhPosts = await getCategoryPosts("vividh", 6);
 
@@ -66,8 +66,8 @@ export default async function HomePage() {
       color: "from-blue-500 to-cyan-500",
     },
     {
-      name: "फोटो फीचर",
-      slug: "photo-feature",
+      name: "जीवन के रंग",
+      slug: "jeevan-ke-rang",
       posts: photoPosts,
       color: "from-orange-500 to-red-500",
     },

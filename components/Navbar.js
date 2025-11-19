@@ -22,7 +22,7 @@ export default function Navbar() {
     { name: "जयपुर", href: "/jaipur" },
     { name: "नगर-डगर", href: "/nagar-dagar" },
     { name: "दुनिया-जहान", href: "/duniya-jahan" },
-    { name: "फोटो फीचर", href: "/photo-feature" },
+    { name: "जीवन के रंग", href: "/jeevan-ke-rang" },
     { name: "खेल संसार", href: "/khel-sansar" },
     { name: "विविध", href: "/vividh" },
   ];
