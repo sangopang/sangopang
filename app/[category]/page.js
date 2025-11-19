@@ -11,7 +11,7 @@ const getCategoryDisplayName = (route) => {
     "duniya-jahan": "दुनिया-जहान",
     "photo-feature": "फोटो फीचर",
     "khel-sansar": "खेल संसार",
-    english: "Sangopang English",
+    vividh: "विविध",
   };
   return displayNames[route] || route;
 };

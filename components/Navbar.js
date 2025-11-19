@@ -24,7 +24,7 @@ export default function Navbar() {
     { name: "दुनिया-जहान", href: "/duniya-jahan" },
     { name: "फोटो फीचर", href: "/photo-feature" },
     { name: "खेल संसार", href: "/khel-sansar" },
-    { name: "Sangopang English", href: "/english" },
+    { name: "विविध", href: "/vividh" },
   ];
 
   return (
