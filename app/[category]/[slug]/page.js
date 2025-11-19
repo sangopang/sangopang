@@ -18,6 +18,14 @@ const getCategoryDisplayName = (route) => {
   return displayNames[route] || route;
 };
 
+// Extract YouTube video ID from URL
+const getYouTubeId = (url) => {
+  if (!url) return null;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return match && match[2].length === 11 ? match[2] : null;
+};
+
 const portableTextComponents = {
   block: {
     normal: ({ children }) => (
@@ -115,6 +123,76 @@ const portableTextComponents = {
         ))}
       </div>
     ),
+    // YouTube embed support
+    youtube: ({ value }) => {
+      const videoId = getYouTubeId(value?.url);
+      if (!videoId) return null;
+
+      return (
+        <div className="my-8">
+          <div className="relative w-full pt-[56.25%] rounded-lg overflow-hidden shadow-lg">
+            <iframe
+              className="absolute top-0 left-0 w-full h-full"
+              src={`https://www.youtube.com/embed/${videoId}`}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          {value.caption && (
+            <p className="text-sm text-gray-600 text-center mt-2 italic">
+              {value.caption}
+            </p>
+          )}
+        </div>
+      );
+    },
+    // Video embed support (generic)
+    videoEmbed: ({ value }) => {
+      const videoId = getYouTubeId(value?.url);
+      if (!videoId) return null;
+
+      return (
+        <div className="my-8">
+          <div className="relative w-full pt-[56.25%] rounded-lg overflow-hidden shadow-lg">
+            <iframe
+              className="absolute top-0 left-0 w-full h-full"
+              src={`https://www.youtube.com/embed/${videoId}`}
+              title="Video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          {value.caption && (
+            <p className="text-sm text-gray-600 text-center mt-2 italic">
+              {value.caption}
+            </p>
+          )}
+        </div>
+      );
+    },
+    // Video URL type
+    video: ({ value }) => {
+      const videoId = getYouTubeId(value?.url);
+      if (!videoId) return null;
+
+      return (
+        <div className="my-8">
+          <div className="relative w-full pt-[56.25%] rounded-lg overflow-hidden shadow-lg">
+            <iframe
+              className="absolute top-0 left-0 w-full h-full"
+              src={`https://www.youtube.com/embed/${videoId}`}
+              title="Video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      );
+    },
   },
 };
 
