@@ -18,7 +18,7 @@ async function getCategoryPosts(categorySlug, limit = 6) {
       _id,
       title,
       slug,
-     "mainImageUrl": mainImage,
+      "mainImageUrl": mainImage,
       mainImageAlt,
       publishedAt,
       category->{name, slug}
@@ -38,6 +38,60 @@ const formatDate = (dateString) => {
   });
 };
 
+const getCategoryColors = (categorySlug) => {
+  const colors = {
+    jaipur: {
+      bg: "bg-red-100",
+      text: "text-red-700",
+      button: "text-red-600 hover:text-red-700",
+    },
+    "nagar-dagar": {
+      bg: "bg-green-100",
+      text: "text-green-700",
+      button: "text-green-600 hover:text-green-700",
+    },
+    "duniya-jahan": {
+      bg: "bg-orange-100",
+      text: "text-orange-700",
+      button: "text-orange-600 hover:text-orange-700",
+    },
+    "jeevan-ke-rang": {
+      bg: "bg-yellow-100",
+      text: "text-yellow-700",
+      button: "text-yellow-600 hover:text-yellow-700",
+    },
+    "khel-sansar": {
+      bg: "bg-blue-100",
+      text: "text-blue-700",
+      button: "text-blue-600 hover:text-blue-700",
+    },
+    vividh: {
+      bg: "bg-purple-100",
+      text: "text-purple-700",
+      button: "text-purple-600 hover:text-purple-700",
+    },
+  };
+  return (
+    colors[categorySlug] || {
+      bg: "bg-gray-100",
+      text: "text-gray-700",
+      button: "text-gray-600 hover:text-gray-700",
+    }
+  );
+};
+
+const getGradientByCategory = (categorySlug) => {
+  const gradients = {
+    jaipur: "from-purple-600 via-pink-600 to-red-600",
+    "nagar-dagar": "from-green-400 to-emerald-600",
+    "duniya-jahan": "from-orange-400 to-red-600",
+    "jeevan-ke-rang": "from-yellow-400 to-orange-500",
+    "khel-sansar": "from-blue-400 to-cyan-600",
+    vividh: "from-purple-400 to-indigo-600",
+  };
+  return gradients[categorySlug] || "from-gray-400 to-gray-600";
+};
+
 export default async function HomePage() {
   const jaipurPosts = await getCategoryPosts("jaipur", 6);
   const nagarPosts = await getCategoryPosts("nagar-dagar", 6);
@@ -54,212 +108,155 @@ export default async function HomePage() {
     ...khelPosts,
     ...vividhPosts,
   ];
+
   const latestPosts = allPosts
     .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
-    .slice(0, 20);
+    .slice(0, 15);
 
-  const heroPost = latestPosts[0];
-  const popularPosts = latestPosts.slice(1, 5);
-  const mainNewsPosts = latestPosts.slice(5, 9);
-  const featuredPosts = latestPosts.slice(9, 12);
-  const relatedPosts = latestPosts.slice(12, 15);
-
-  return (
-    <div className="min-h-screen bg-white">
-      <div className="container mx-auto px-4 py-6">
-        <div className="grid lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 space-y-6">
-            {heroPost && (
-              <article className="border border-gray-200 overflow-hidden">
-                {heroPost.mainImageUrl && (
-                  <div className="relative h-80 bg-gray-100">
-                    <Image
-                      src={heroPost.mainImageUrl}
-                      alt={heroPost.mainImageAlt || heroPost.title}
-                      fill
-                      className="object-cover"
-                      priority
-                    />
-                  </div>
-                )}
-                <div className="bg-white p-4">
-                  <span className="inline-block bg-gray-900 text-white px-3 py-1 text-xs font-bold mb-3 uppercase">
-                    {heroPost.category?.name}
-                  </span>
-                  <h1 className="text-3xl font-bold mb-3 leading-tight text-gray-900">
-                    {heroPost.title}
-                  </h1>
-                  <Link
-                    href={`/${heroPost.category?.slug?.current}/${heroPost.slug?.current}`}
-                    className="inline-flex items-center text-red-600 hover:text-red-700 font-semibold text-sm"
-                  >
-                    और पढ़ें
-                    <svg
-                      className="w-4 h-4 ml-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 7l5 5m0 0l-5 5m5-5H6"
-                      />
-                    </svg>
-                  </Link>
-                </div>
-              </article>
-            )}
-
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-gray-900">Latest News</h2>
-                <Link
-                  href="/all"
-                  className="text-xs text-red-600 hover:underline font-semibold"
-                >
-                  SEE ALL
-                </Link>
-              </div>
-              <div className="space-y-4">
-                {mainNewsPosts.map((post) => (
-                  <article
-                    key={post._id}
-                    className="flex gap-4 border-b border-gray-200 pb-4"
-                  >
-                    {post.mainImageUrl && (
-                      <div className="relative w-24 h-24 flex-shrink-0">
-                        <Image
-                          src={post.mainImageUrl}
-                          alt={post.mainImageAlt || post.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    )}
-                    <div className="flex-1">
-                      <span className="inline-block bg-gray-900 text-white px-2 py-1 text-xs font-bold mb-2 uppercase">
-                        {post.category?.name}
-                      </span>
-                      <h3 className="font-bold text-sm leading-tight mb-1 line-clamp-2 hover:text-red-600 transition-colors">
-                        <Link
-                          href={`/${post.category?.slug?.current}/${post.slug?.current}`}
-                        >
-                          {post.title}
-                        </Link>
-                      </h3>
-                      <div className="flex items-center gap-3 text-xs text-gray-500 mt-2">
-                        <span>{formatDate(post.publishedAt)}</span>
-                        <span>0</span>
-                      </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Featured</h2>
-              <div className="space-y-4">
-                {featuredPosts.map((post) => (
-                  <article
-                    key={post._id}
-                    className="border-b border-gray-200 pb-4"
-                  >
-                    <span className="inline-block bg-gray-900 text-white px-2 py-1 text-xs font-bold mb-2 uppercase">
-                      {post.category?.name}
-                    </span>
-                    <h3 className="font-bold text-base leading-tight mb-2 hover:text-red-600 transition-colors">
-                      <Link
-                        href={`/${post.category?.slug?.current}/${post.slug?.current}`}
-                      >
-                        {post.title}
-                      </Link>
-                    </h3>
-                    <div className="flex items-center gap-3 text-xs text-gray-500">
-                      <span>{formatDate(post.publishedAt)}</span>
-                      <span>0</span>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            <div className="bg-gray-50 p-4">
-              <h3 className="text-lg font-bold text-gray-900 mb-4 pb-2 border-b-2 border-red-600">
-                Popular
-              </h3>
-              <div className="space-y-4">
-                {popularPosts.map((post) => (
-                  <article key={post._id} className="flex gap-3">
-                    {post.mainImageUrl && (
-                      <div className="relative w-20 h-20 flex-shrink-0">
-                        <Image
-                          src={post.mainImageUrl}
-                          alt={post.mainImageAlt || post.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    )}
-                    <div className="flex-1">
-                      <span className="inline-block bg-gray-900 text-white px-2 py-1 text-xs font-bold mb-1 uppercase">
-                        {post.category?.name}
-                      </span>
-                      <h4 className="font-bold text-xs leading-tight line-clamp-2 hover:text-red-600 transition-colors">
-                        <Link
-                          href={`/${post.category?.slug?.current}/${post.slug?.current}`}
-                        >
-                          {post.title}
-                        </Link>
-                      </h4>
-                      <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
-                        <span>{formatDate(post.publishedAt)}</span>
-                        <span>0</span>
-                      </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-gray-900 text-white p-4">
-              <h3 className="text-lg font-bold mb-4 pb-2 border-b-2 border-red-600">
-                Related
-              </h3>
-              <div className="space-y-4">
-                {relatedPosts.map((post) => (
-                  <article key={post._id}>
-                    {post.mainImageUrl && (
-                      <div className="relative w-full h-32 mb-2">
-                        <Image
-                          src={post.mainImageUrl}
-                          alt={post.mainImageAlt || post.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    )}
-                    <h4 className="font-bold text-sm leading-tight mb-2 hover:text-red-400 transition-colors">
-                      <Link
-                        href={`/${post.category?.slug?.current}/${post.slug?.current}`}
-                      >
-                        {post.title}
-                      </Link>
-                    </h4>
-                    <div className="text-xs text-gray-400">
-                      {formatDate(post.publishedAt)}
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </div>
+  if (!latestPosts || latestPosts.length === 0) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-5xl">
+        <div className="text-center py-12">
+          <p className="text-lg text-gray-600">कोई पोस्ट उपलब्ध नहीं है।</p>
         </div>
       </div>
-    </div>
+    );
+  }
+
+  const featuredPost = latestPosts[0];
+  const listPosts = latestPosts.slice(1, 11);
+
+  return (
+    <>
+      <div className="container mx-auto px-4 py-8 max-w-5xl">
+        {/* Featured Post Banner */}
+        {featuredPost && (
+          <div className="mb-8 relative overflow-hidden rounded-2xl">
+            {featuredPost.mainImageUrl ? (
+              <div className="relative h-80">
+                <Image
+                  src={featuredPost.mainImageUrl}
+                  alt={featuredPost.mainImageAlt || featuredPost.title}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-40" />
+              </div>
+            ) : (
+              <div
+                className={`h-80 bg-gradient-to-r ${getGradientByCategory(featuredPost.category?.slug?.current)}`}
+              />
+            )}
+            <div className="absolute inset-0 flex items-end">
+              <div className="p-8 text-white">
+                <span className="bg-red-500 px-3 py-1 rounded text-sm font-semibold">
+                  FEATURED
+                </span>
+                <h2 className="text-4xl font-bold mt-4 mb-3">
+                  {featuredPost.title}
+                </h2>
+                <p className="text-lg mb-4 opacity-90">
+                  {featuredPost.title.substring(0, 100)}...
+                </p>
+                <Link
+                  href={`/${featuredPost.category?.slug?.current}/${featuredPost.slug?.current}`}
+                  className="inline-block bg-white text-gray-900 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100"
+                >
+                  पूरा पढ़ें →
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* List Posts */}
+        <div className="space-y-6">
+          {listPosts.map((post) => {
+            const colors = getCategoryColors(post.category?.slug?.current);
+            const gradient = getGradientByCategory(
+              post.category?.slug?.current
+            );
+
+            return (
+              <article
+                key={post._id}
+                className="bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden"
+              >
+                <div className="flex flex-col md:flex-row">
+                  {post.mainImageUrl ? (
+                    <div className="md:w-80 h-64 md:h-auto relative flex-shrink-0">
+                      <Image
+                        src={post.mainImageUrl}
+                        alt={post.mainImageAlt || post.title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      className={`md:w-80 h-64 md:h-auto bg-gradient-to-br ${gradient} flex-shrink-0`}
+                    />
+                  )}
+                  <div className="p-6 flex-1">
+                    <div className="flex items-center gap-3 mb-3">
+                      <span
+                        className={`${colors.bg} ${colors.text} px-3 py-1 rounded-full text-xs font-semibold`}
+                      >
+                        {post.category?.name || "सामान्य"}
+                      </span>
+                      <span className="text-xs text-gray-500">
+                        {formatDate(post.publishedAt)}
+                      </span>
+                    </div>
+                    <h3 className="text-2xl font-bold mb-3">{post.title}</h3>
+                    <p className="text-gray-600 mb-4 leading-relaxed">
+                      {post.title.length > 150
+                        ? `${post.title.substring(0, 150)}...`
+                        : post.title}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-2">
+                        <span className="text-xs bg-gray-100 px-3 py-1 rounded-full">
+                          {post.category?.name?.split("-")[0] || "टैग"}
+                        </span>
+                        <span className="text-xs bg-gray-100 px-3 py-1 rounded-full">
+                          समाचार
+                        </span>
+                      </div>
+                      <Link
+                        href={`/${post.category?.slug?.current}/${post.slug?.current}`}
+                        className={`${colors.button} font-semibold`}
+                      >
+                        पढ़ें →
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+
+        {/* Pagination */}
+        <div className="flex justify-center gap-2 mt-8">
+          <button className="px-4 py-2 bg-white rounded-lg shadow hover:shadow-md">
+            ← पिछला
+          </button>
+          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow">
+            1
+          </button>
+          <button className="px-4 py-2 bg-white rounded-lg shadow hover:shadow-md">
+            2
+          </button>
+          <button className="px-4 py-2 bg-white rounded-lg shadow hover:shadow-md">
+            3
+          </button>
+          <button className="px-4 py-2 bg-white rounded-lg shadow hover:shadow-md">
+            अगला →
+          </button>
+        </div>
+      </div>
+    </>
   );
 }
