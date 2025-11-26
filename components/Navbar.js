@@ -19,43 +19,6 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Top Bar */}
-      <div className="bg-gray-100 border-b border-gray-200">
-        <div className="container mx-auto px-4 py-2 flex items-center justify-between text-xs">
-          <div className="flex items-center gap-4 text-gray-700">
-            <Link
-              href="/login"
-              className="hover:text-red-600 transition-colors"
-            >
-              लॉगिन
-            </Link>
-            <Link
-              href="/sitemap"
-              className="hover:text-red-600 transition-colors"
-            >
-              साइट मैप
-            </Link>
-            <Link href="/help" className="hover:text-red-600 transition-colors">
-              सहायता
-            </Link>
-            <Link href="/faqs" className="hover:text-red-600 transition-colors">
-              प्रश्न
-            </Link>
-          </div>
-          <div className="flex items-center gap-3">
-            <button className="hover:text-red-600 transition-colors">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
       {/* Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-4 py-4">
