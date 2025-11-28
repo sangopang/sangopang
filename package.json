@@ -1,5 +1,5 @@
 {
-  "name": "sangopang",
+   "name": "sangopang",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,27 +10,24 @@
     "format": "biome format --write"
   },
   "dependencies": {
-    "@portabletext/react": "^5.0.0",
-    "@sanity/client": "^7.13.1",
+    "@portabletext/react": "^3.1.0",
+    "@sanity/client": "^6.24.1",
+    "@sanity/icons": "^3.5.0",
     "@sanity/image-url": "^1.2.0",
-    "@sanity/ui": "^3.1.11",
-    "@sanity/vision": "^4.19.0",
-    "axios": "^1.6.2",
-    "form-data": "^4.0.5",
-    "googleapis": "^166.0.0",
-    "lucide-react": "^0.554.0",
-    "next": "^15.5.6",
-    "next-sanity": "^11.6.10",
-    "node-fetch": "^2.7.0",
+    "@sanity/ui": "^2.11.5",
+    "@sanity/vision": "^3.68.1",
+    "lucide-react": "^0.545.0",
+    "next": "^15.1.0",
+    "next-sanity": "^9.8.20",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-ga4": "^2.1.0",
-    "sanity": "^4.19.0"
+    "react-google-analytics": "^0.2.0",
+    "sanity": "^3.68.1",
+    "styled-components": "^6.1.19"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
     "@tailwindcss/postcss": "^4",
-    "babel-plugin-react-compiler": "1.0.0",
     "tailwindcss": "^4"
   }
 }
